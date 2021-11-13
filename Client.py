@@ -393,7 +393,7 @@ class Client:
 			# Keep track of the sent request.
 			# self.requestSent = ...
 			self.requestSent = self.SETUP
-			print('Request la:', request)
+			print('Request:', request)
 
 		# Play request
 		elif requestCode == self.PLAY and self.state == self.READY:
