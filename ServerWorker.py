@@ -80,7 +80,7 @@ class ServerWorker:
 				print ("The sequenceNum: " + seq[1])
 				# Get the RTP/UDP port from the last line
 				self.clientInfo['rtpPort'] = request[2].split(' ')[3]
-				print ('*'*40 + "\nrtpPort is :" + self.clientInfo['rtpPort'] + "\n" + '*'*40)
+				print ('*'*40 + "\nRTPPort is :" + self.clientInfo['rtpPort'] + "\n" + '*'*40)
 				print ("The filename: " + filename)
 
 		# Process PLAY request
