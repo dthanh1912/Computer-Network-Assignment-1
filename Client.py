@@ -1,4 +1,3 @@
-#__author__ = 'Tibbers'
 from tkinter import *
 import tkinter.messagebox as messagebox
 from PIL import Image, ImageTk
@@ -238,7 +237,7 @@ class Client:
 		if self.state !=self.INIT:
 			self.sendRtspRequest(self.TEARDOWN)
 			try:
-				rate = float(self.counter/self.frameNbr)
+				rate = float(self.counter)/float(self.frameNbr)
 			except:
 				rate=0
 			print ('*'*40 + "\nRTP Packet Loss Rate :" + str(rate) +"\n" + '*'*40)
