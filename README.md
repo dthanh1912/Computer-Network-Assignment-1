@@ -1,8 +1,7 @@
-# HK202_Assign1_CN
- Assignment 1 for Computer Network
+# Assignment 1 for Computer Network Lab
  User's manual:
  - Open 2 terminal in folder contain .py files, one for server, one for client
  1. Type: python Server.py [server port]
-	Ex: python Serveer.py 1032
+	Ex: python Serveer.py 8000
  2. Type:python ClientLauncher.py [serverIP] [server port] [client port] [video directory] 
-	Ex: python ClientLauncher.py 192.168.1.1 1032 2000 movie.Mjpeg
+	Ex: python ClientLauncher.py 172.20.10.2 8000 8000 movie.Mjpeg
