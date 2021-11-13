@@ -562,12 +562,12 @@ class Client:
 						# TO COMPLETE
 						#-------------
 						# Update RTSP state.
-						print ("Updating RTSP state...")
+						print ("Updating RTSP state")
 						# self.state = ...
 						self.state = self.READY
 						# Open RTP port.
 						#self.openRtpPort()
-						print ("Setting Up RtpPort for Video Stream")
+						print ("Setting Up RtpPort for Video Streaming")
 						self.openRtpPort()
 						#self.reset_init(self, master, serveraddr, serverport, rtpport, filename)
 
