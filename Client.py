@@ -3,7 +3,7 @@ from tkinter import *
 import tkinter.messagebox as messagebox
 from PIL import Image, ImageTk
 import socket, threading, sys, traceback, os
-
+from tkinter_custom_button import TkinterCustomButton
 from RtpPacket import RtpPacket
 
 CACHE_FILE_NAME = "cache-"
@@ -19,6 +19,7 @@ class Client:
 	DESCRIBE_STR = 'DESCRIBE'
 	FORWARD_STR = 'FORWARD'
 	BACKWARD_STR = 'BACKWARD'
+
 #state
 	INIT = 0
 	READY = 1
@@ -39,6 +40,9 @@ class Client:
 	backsignal=0
 	forsignal=0
 	counter = 0
+
+	about_message = 'This is our submission for the Computer Networks Lab Assignment 1.\n\nOur group has three member:\n1. Quách Đằng Giang - 1952044\n2. Nguyễn Đức Thành - 1952983\n3. Lý Kim Phong - 1952916\n\n Have a great day 😎'
+
 	# Initiation..
 	def __init__(self, master, serveraddr, serverport, rtpport, filename):
 		self.master = master
@@ -57,53 +61,172 @@ class Client:
 		self.rtpSocket = socket.socket(socket.AF_INET,socket.SOCK_DGRAM)
 		self.setupMovie()
 
+	def about_dialog(self):
+		messagebox.showinfo(title='About Us', message=self.about_message)
+
 	def createWidgets(self):
 		"""Build GUI."""
-		# Create Describe button
+		# Create Setup button
+		"""
 		self.setup = Button(self.master, width=20, padx=3, pady=3)
-		self.setup["text"] = chr(8505)
-		self.setup["command"] = self.describeInfo
-		self.setup.grid(row=2, column=2, padx=2, pady=2)
+		self.setup["text"] = "Setup"
+		self.setup["command"] = self.setupMovie
+		self.setup.grid(row=1, column=0, padx=0, pady=0)
+		"""
 
-		# Create Play button
-		self.start = Button(self.master, width=20, padx=3, pady=3)
-		self.start["text"] = chr(9654)
-		self.start["command"] = self.playMovie
-		self.start.grid(row=1, column=0, padx=2, pady=2)
+		# Create testing button for GUI improvment
+		#self.setup = TkinterCustomButton(text="My Button", corner_radius=10, command=self.button_function)
+		self.about= TkinterCustomButton(
+                                            #bg_color='#4C566A',
+                                            #fg_color='#4C566A',
+                                            border_color="#ABB2B9",
+                                            hover_color="#B48EAD",
+                                            #text_font=None,
+                                            text="About Us",
+                                            text_color="white",
+                                            corner_radius=150,
+                                            #border_width=2,
+                                            width=160,
+                                            height=30,
+                                            hover=True,
+											text_font=("Helvetica", 15),
+											text_when_hover='black',
+                                            command=self.about_dialog)
+		self.about.grid(row = 2, column = 3, padx = 2, pady = 2)
 
-		# Create Pause button
-		self.pause = Button(self.master, width=20, padx=3, pady=3)
-		self.pause["text"] = chr(9208)
-		self.pause["command"] = self.pauseMovie
-		self.pause.grid(row=1, column=1, padx=2, pady=2)
 
-		# Create Forward button
-		self.setup = Button(self.master, width=20, padx=3, pady=3)
-		self.setup["text"] = chr(9193)
-		self.setup["command"] = self.forwardVideo
-		self.setup.grid(row=2, column=1, padx=2, pady=2)
+		self.start= TkinterCustomButton(
+                                            #bg_color='#4C566A',
+                                            #fg_color='#4C566A',
+                                            border_color="#ABB2B9",
+                                            hover_color="#5E81AC",
+                                            #text_font=None,
+                                            text="Play",
+                                            text_color="white",
+                                            corner_radius=150,
+                                            #border_width=2,
+                                            width=160,
+                                            height=30,
+                                            hover=True,
+											text_font=("Helvetica", 15),
+											text_when_hover='black',
+                                            command=self.playMovie)
+		self.start.grid(row = 1, column = 0, padx = 2, pady = 2)
 
-		# Create Backward button
-		self.setup = Button(self.master, width=20, padx=3, pady=3)
-		self.setup["text"] = chr(9194)
-		self.setup["command"] = self.backwardVideo
-		self.setup.grid(row=2, column=0, padx=2, pady=2)
 
-		# Create Stop button
-		self.teardown = Button(self.master, width=20, padx=3, pady=3)
-		self.teardown["text"] = chr(9209) #==Teardown
-		self.teardown["command"] =  self.teardownMovie
-		self.teardown.grid(row=1, column=2, padx=2, pady=2)
+		self.pause= TkinterCustomButton(
+                                            #bg_color='#4C566A',
+                                            #fg_color='#4C566A',
+                                            border_color="#ABB2B9",
+                                            hover_color="#EBCB8B",
+                                            #text_font=None,
+                                            text="Pause",
+                                            text_color="white",
+                                            corner_radius=150,
+                                            #border_width=2,
+                                            width=160,
+                                            height=30,
+                                            hover=True,
+											text_font=("Helvetica", 15),
+											text_when_hover='black',
+                                            command=self.pauseMovie)
+		self.pause.grid(row = 1, column = 1, padx = 2, pady = 2)
 
-		# Create Exit button
-		self.exit = Button(self.master, width=20, padx=3, pady=3)
-		self.exit["text"] = "Exit"
-		self.exit["command"] =  self.exitClient
-		self.exit.grid(row=1, column=3, padx=2, pady=2)
+		self.teardown= TkinterCustomButton(
+                                            #bg_color='#4C566A',
+                                            #fg_color='#4C566A',
+                                            border_color="#ABB2B9",
+                                            hover_color="#EBCB8B",
+                                            #text_font=None,
+                                            text="Teardown",
+                                            text_color="white",
+                                            corner_radius=150,
+                                            #border_width=2,
+                                            width=160,
+                                            height=30,
+                                            hover=True,
+											text_font=("Helvetica", 15),
+											text_when_hover='black',
+                                            command=self.teardownMovie)
+		self.teardown.grid(row = 2, column = 0, padx = 2, pady = 2)
 
-		# Create a label to display the movie
-		self.label = Label(self.master, height=19)
-		self.label.grid(row=0, column=0, columnspan=4, sticky=W+E+N+S, padx=5, pady=5)
+		self.exit= TkinterCustomButton(
+                                            #bg_color='#4C566A',
+                                            #fg_color='#4C566A',
+                                            border_color="#ABB2B9",
+                                            hover_color="#BF616A",
+                                            #text_font=None,
+                                            text="Exit",
+                                            text_color="white",
+                                            corner_radius=150,
+                                            #border_width=2,
+                                            width=160,
+                                            height=30,
+                                            hover=True,
+											text_font=("Helvetica", 15),
+											text_when_hover='black',
+                                            command=self.exitClient)
+		self.exit.grid(row = 2, column = 1, padx = 2, pady = 2)
+
+		self.backward= TkinterCustomButton(
+                                            #bg_color='#4C566A',
+                                            #fg_color='#4C566A',
+                                            border_color="#ABB2B9",
+                                            hover_color="#BF616A",
+                                            #text_font=None,
+                                            text="Backward",
+                                            text_color="white",
+                                            corner_radius=150,
+                                            #border_width=2,
+                                            width=160,
+                                            height=30,
+                                            hover=True,
+											text_font=("Helvetica", 15),
+											text_when_hover='black',
+                                            command=self.backwardVideo)
+		self.backward.grid(row = 1, column = 2, padx = 2, pady = 2)
+
+		self.forward= TkinterCustomButton(
+                                            #bg_color='#4C566A',
+                                            #fg_color='#4C566A',
+                                            border_color="#ABB2B9",
+                                            hover_color="#BF616A",
+                                            #text_font=None,
+                                            text="Forward",
+                                            text_color="white",
+                                            corner_radius=150,
+                                            #border_width=2,
+                                            width=160,
+                                            height=30,
+                                            hover=True,
+											text_font=("Helvetica", 15),
+											text_when_hover='black',
+                                            command=self.forwardVideo)
+		self.forward.grid(row = 1, column = 3, padx = 2, pady = 2)
+
+		self.describe= TkinterCustomButton(
+                                            #bg_color='#4C566A',
+                                            #fg_color='#4C566A',
+                                            border_color="#ABB2B9",
+                                            hover_color="#BF616A",
+                                            #text_font=None,
+                                            text="Describe",
+                                            text_color="white",
+                                            corner_radius=150,
+                                            #border_width=2,
+                                            width=160,
+                                            height=30,
+                                            hover=True,
+											text_font=("Helvetica", 15),
+											text_when_hover='black',
+                                            command=self.describeInfo)
+		self.describe.grid(row = 2, column = 2, padx = 2, pady = 2)
+
+
+
+		self.label = Label(self.master, height=19, background = '#2E3440')
+		self.label.grid(row=0, column=0, columnspan=8, sticky=W+E+N+S, padx=5, pady=5)
+
 
 	def setupMovie(self):
 		"""Setup button handler."""
@@ -118,7 +241,7 @@ class Client:
 				rate = float(self.counter/self.frameNbr)
 			except:
 				rate=0
-			print ('-'*60 + "\nRTP Packet Loss Rate :" + str(rate) +"\n" + '-'*60)
+			print ('*'*40 + "\nRTP Packet Loss Rate :" + str(rate) +"\n" + '*'*40)
 
 	def exitClient(self):
 		"""Exit button handler."""
@@ -130,7 +253,7 @@ class Client:
 			rate = float(self.counter/self.frameNbr)
 		except:
 			rate=0
-		print ('-'*60 + "\nRTP Packet Loss Rate :" + str(rate) +"\n" + '-'*60)
+		print ('*'*40 + "\nRTP Packet Loss Rate :" + str(rate) +"\n" + '*'*40)
 		sys.exit(0)
 
 	def pauseMovie(self):
@@ -147,20 +270,21 @@ class Client:
 			self.playEvent = threading.Event()
 			self.playEvent.clear()
 			self.sendRtspRequest(self.PLAY)
+
 	def describeInfo(self):
 		"""describe button handler."""
 		# Create a new thread to listen for RTP packets
-		print ("Describe video info")
+		print ("Video Information Describe")
 		self.sendRtspRequest(self.DESCRIBE)
 
 	def forwardVideo(self):
 		if self.state !=self.INIT:
-			print("Forward video....")
+			print("Forwarding video!!")
 			self.sendRtspRequest(self.FORWARD)
 
 	def backwardVideo(self):
 		if self.state !=self.INIT:
-			print("Backward video....")
+			print("Backwarding video!!")
 			self.sendRtspRequest(self.BACKWARD)
 
 	def listenRtp(self):
@@ -177,23 +301,22 @@ class Client:
 						self.teardownMovie()
 
 						break
-					print ("||Received Rtp Packet #" + str(rtpPacket.seqNum()) + "|| ")
 					try:
 						if self.frameNbr + 1 != rtpPacket.seqNum() and (self.backsignal==1 ^ self.forsignal==1) :
 							self.counter += 1
-							print ('!'*60 + "\nPACKET LOSS\n" + '!'*60)
+							print ('*'*40 + "\nPACKET LOSS\n" + '*'*40)
 						currFrameNbr = rtpPacket.seqNum()
 						#version = rtpPacket.version()
 					except:
 						print ("seqNum() error")
-						print ('-'*60)
+						print ('*'*40)
 						traceback.print_exc(file=sys.stdout)
-						print ('-'*60)
+						print ('*'*40)
 
 					if currFrameNbr > self.frameNbr: # Discard the late packet
 						self.frameNbr = currFrameNbr
 						self.updateMovie(self.writeFrame(rtpPacket.getPayload()))
-					print('currframe: ', currFrameNbr, ' frameNbr: ',self.frameNbr)
+					print('Current frame number: ', currFrameNbr)
 			except:
 				# Stop listening upon requesting PAUSE or TEARDOWN
 				if self.playEvent.isSet():
@@ -216,12 +339,12 @@ class Client:
 		try:
 			file = open(cachename, "wb")
 		except:
-			print ("file open error")
+			print ("File open error!!")
 
 		try:
 			file.write(data)
 		except:
-			print ("file write error")
+			print ("File write error!!")
 
 		file.close()
 
@@ -230,12 +353,12 @@ class Client:
 	def updateMovie(self, imageFile):
 		"""Update the image file as video frame in the GUI."""
 		try:
-			photo = ImageTk.PhotoImage(Image.open(imageFile)) #stuck here !!!!!!
+			photo = ImageTk.PhotoImage(Image.open(imageFile))
 		except:
 			print ("photo error")
-			print ('-'*60)
+			print ('*'*40)
 			traceback.print_exc(file=sys.stdout)
-			print ('-'*60)
+			print ('*'*40)
 
 		self.label.configure(image = photo, height=288)
 		self.label.image = photo
@@ -284,7 +407,7 @@ class Client:
 			request+="\nCSeq: %d" % self.rtspSeq
 			request+="\nSession: %d"%self.sessionId
 			#self.rtspSocket.send(request)
-			print ('-'*60 + "\nPLAY request sent to Server...\n" + '-'*60)
+			print ('*'*40 + "\nPLAY request sent to Server...\n" + '*'*40)
 			# Keep track of the sent request.
 			# self.requestSent = ...
 			self.requestSent = self.PLAY
@@ -301,7 +424,7 @@ class Client:
 			request+="\nCSeq: %d" % self.rtspSeq
 			request+="\nSession: %d"%self.sessionId
 			#self.rtspSocket.send(request)
-			print ('-'*60 + "\nPAUSE request sent to Server...\n" + '-'*60)
+			print ('*'*40 + "\nPAUSE request sent to Server...\n" + '*'*40)
 			# Keep track of the sent request.
 			# self.requestSent = ...
 			self.requestSent = self.PAUSE
@@ -321,7 +444,7 @@ class Client:
 			request+="\nCSeq: %d" % self.rtspSeq
 			request+="\nSession: %d" % self.sessionId
 			#self.rtspSocket.send(request)
-			print ('-'*60 + "\nTEARDOWN request sent to Server...\n" + '-'*60)
+			print ('*'*40 + "\nTEARDOWN request sent to Server...\n" + '*'*40)
 			# Keep track of the sent request.
 			# self.requestSent = ...
 			self.requestSent = self.TEARDOWN
@@ -338,7 +461,7 @@ class Client:
 			request+="\nCSeq: %d" % self.rtspSeq
 			request+="\nSession: %d" % self.sessionId
 			#self.rtspSocket.send(request)
-			print ('-'*60 + "\nEXIT request sent to Server...\n" + '-'*60)
+			print ('*'*40 + "\nEXIT request sent to Server...\n" + '*'*40)
 			# Keep track of the sent request.
 			# self.requestSent = ...
 			self.requestSent = self.EXIT
@@ -450,7 +573,7 @@ class Client:
 
 					elif self.requestSent == self.PLAY:
 						 self.state = self.PLAYING
-						 print ('-'*60 + "\nClient is PLAYING...\n" + '-'*60)
+						 print ('*'*40 + "\nClient is PLAYING...\n" + '*'*40)
 
 					elif self.requestSent == self.PAUSE:
 						 self.state = self.READY

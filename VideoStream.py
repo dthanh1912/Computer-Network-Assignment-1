@@ -15,7 +15,6 @@ class VideoStream:
 		"""Forward video"""
 		if forward==1:
 			if self.frameNum + self.fps > self.numFrame:
-				print("OCER HERE !!!!")
 				self.file.seek(self.posAllFrame[self.numFrame-2])
 				self.frameNum = self.numFrame -1
 			else:
@@ -35,7 +34,7 @@ class VideoStream:
 			framelength = int(data)
 			data = self.file.read(framelength)
 			self.frameNum += 1
-			print ('*'*30 + "\nNext Frame (#" + str(self.frameNum) + ") length:" + str(framelength)+ "\n" )
+			print ("Next Frame: " + str(self.frameNum) + ", length: " + str(framelength)+ "\n" )
 		return data
 
 	def getPosFrame(self):
